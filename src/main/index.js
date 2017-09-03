@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from 'electron'
-
+import { app, BrowserWindow, ipcMain } from 'electron'
+import ffmpeg from 'fluent-ffmpeg'
+ffmpeg.setFfmpegPath('/ffmpeg/bin/ffmpeg.exe')
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -10,7 +11,7 @@ if (process.env.NODE_ENV !== 'development') {
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://10.220.196.18:9080`
+  ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
 function createWindow () {
@@ -42,6 +43,21 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
+})
+
+ipcMain.on('encode-mp4', (event, arg) => {
+  ffmpeg(arg).videoCodec('libx264').size('50%').output('outputfile.mp4')
+  .on('error', function(err, stdout, stderr) {
+    console.log('Cannot process video: ' + err.message);
+  })
+  .on('progress', function(progress) {
+    console.log('Processing: ' + parseInt(progress.percent) + '% done');
+    event.returnValue = parseInt(progress.percent)
+  })
+  .on('end', function(stdout, stderr) {
+    console.log('Transcoding succeeded !');
+  })
+  .run()
 })
 
 /**
