@@ -1,7 +1,7 @@
 {
   "name": "encode-web-video",
   "version": "0.0.0",
-  "author": "",
+  "author": "bobo",
   "description": "An electron-vue project",
   "license": null,
   "main": "./dist/electron/main.js",
@@ -51,10 +51,11 @@
     }
   },
   "dependencies": {
-    "element-ui": "^1.4.3",
     "fluent-ffmpeg": "^2.1.2",
+    "spectre.css": "^0.4.0",
     "vue": "^2.3.3",
-    "vue-electron": "^1.0.6"
+    "vue-electron": "^1.0.6",
+    "vue-router": "^2.7.0"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",

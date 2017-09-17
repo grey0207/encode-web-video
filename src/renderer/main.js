@@ -1,14 +1,10 @@
 import Vue from 'vue'
-import { Row, Col, Checkbox, CheckboxGroup, Button, Dialog, Input, Progress} from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
-Vue.use(Row)
-Vue.use(Col)
-Vue.use(Checkbox)
-Vue.use(CheckboxGroup)
-Vue.use(Button)
-Vue.use(Dialog)
-Vue.use(Input)
-Vue.use(Progress)
+import router from './router'
+import 'spectre.css/dist/spectre.min.css'
+import 'spectre.css/dist/spectre-exp.min.css'
+import 'spectre.css/dist/spectre-icons.min.css'
+// import 'font-awesome/css/font-awesome.css'
+// import 'animate.css/animate.min.css'
 import App from './App'
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.config.productionTip = false
@@ -16,6 +12,7 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   components: { App },
+  router,
   template: '<App/>'
 }).$mount('#app')
 
