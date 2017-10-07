@@ -2,6 +2,8 @@
 
 >  Require install [ffmpeg](http://ffmpeg.org/), and create the environment variable for ffmpeg.
 
+Converting video to mp4/webm/ogv.
+
 #### Build Setup
 
 ``` bash
