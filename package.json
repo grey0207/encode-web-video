@@ -1,6 +1,6 @@
 {
   "name": "encode-web-video",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "author": "bobo",
   "description": "An electron-vue project",
   "license": null,

@@ -1,6 +1,6 @@
 # encode-web-video
 
-> An electron-vue project
+>  Require install [ffmpeg](http://ffmpeg.org/), and create the environment variable for ffmpeg.
 
 #### Build Setup
 

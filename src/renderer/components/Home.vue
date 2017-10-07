@@ -27,33 +27,16 @@
     </div>
 
     <button class="btn" @click="toggleDialog" :style="{margin:'10px 0'}">开始转码</button>
-    <router-link to="/detail">Go to Foo</router-link>
     <div>
-      <span v-for="item of toastText" :key="item.id" class="label label-rounded label-error">{{item.text}}</span>
+      <span v-for="item of labelText" :key="item.id" class="label label-rounded label-error" :style="{margin:'5px'}">{{item.text}}</span>
     </div>
 
-    <div class="modal" :class="{active:dialogVisible}">
-      <div class="modal-overlay"></div>
-      <div class="modal-container">
-        <div class="modal-header">
-          <button class="btn btn-clear float-right" @click="toggleDialog"></button>
-          <div class="modal-title h5">提示</div>
-        </div>
-        <div class="modal-body">
-          <div class="content">
-            再次确认是否需要转码
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" @click="encodeVideo">Yes</button>
-          <button class="btn" @click="toggleDialog">Close</button>
-        </div>
-      </div>
-    </div>
+    <Modal :class="{active:dialogVisible}" v-on:close="toggleDialog" v-on:yes="encodeVideo" content="确认是否需要转码" />
   </div>
 </template>
 
 <script>
+  import Modal from '@/components/Modal'
   export default {
     name: 'Home',
     data() {
@@ -62,25 +45,22 @@
         outpath: '',
         checkList: [],
         dialogVisible: false,
-        toastText: [],
+        labelText: [],
       }
     },
-    computed: {
-      toastKey(){
-        switch (this.docState) {
-          case `输入源不能为空` : return 'error1'
-          case `请至少选择一个转码格式` : return 'error2'
-        }
-      }
+    components: {
+      Modal
     },
     methods: {
       toggleDialog() {
-        if (this.inputpath.length === 0 || this.checkList.length === 0) {
-          this.inputpath.length === 0 ? this.toastText.push({id:0,text:`输入源不能为空!`}) : null
-          this.checkList.length === 0 ? this.toastText.push({id:1,text:`请至少选择一个转码格式!`}) : null
+        if (this.inputpath.length === 0 || this.checkList.length === 0 || this.outpath.length === 0) {
+          this.labelText.length = 0
+          this.inputpath.length === 0 ? this.labelText.push({id:0,text:`输入源不能为空!`}) : null
+          this.outpath.length === 0 ? this.labelText.push({id:1,text:`输出源不能为空!`}) : null
+          this.checkList.length === 0 ? this.labelText.push({id:2,text:`请至少选择一个转码格式!`}) : null
           return
         }
-        this.toastText.length = 0
+        this.labelText.length = 0
         this.dialogVisible = !this.dialogVisible
       },
       drop(e) {
@@ -106,9 +86,6 @@
         console.log(`开始编码${this.inputpath}`)
         this.$router.push({path:'detail'})
         this.$electron.ipcRenderer.send('encode',this.checkList,this.inputpath,this.outpath)
-        // this.checkList.indexOf('mp4') !== -1 ? this.$electron.ipcRenderer.send('encode-mp4', this.inputpath) : null
-        // this.checkList.indexOf('webm') !== -1 ? this.$electron.ipcRenderer.send('encode-webm', this.inputpath) : null
-        // this.checkList.indexOf('ogv') !== -1 ? this.$electron.ipcRenderer.send('encode-ogv', this.inputpath) : null
       },
     }
   }
