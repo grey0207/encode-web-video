@@ -19,9 +19,9 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 400,
     useContentSize: true,
-    width: 1000
+    width: 500
   })
 
   mainWindow.loadURL(winURL)
@@ -129,8 +129,6 @@ ipcMain.on('encode', (event, typeList, inputPath, outPath) => {
       }
     }
   }
-  // typeList.indexOf('webm') !== -1 ? command_2.run() : null
-  // typeList.indexOf('ogv') !== -1 ? command_3.run() : null
 })
 /**
  * Auto Updater
